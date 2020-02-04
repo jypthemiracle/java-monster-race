@@ -3,6 +3,7 @@ package com.monstertest.step01;
 import com.monstergame.step01.Monster;
 
 import com.monstergame.step01.MonsterInput;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -17,13 +18,13 @@ public class MonsterInputTest {
   MonsterInput asker = mock(MonsterInput.class);
 
   @Test
-  public void monsterNumTest() {
+  public void monsterNumTest() throws IOException {
     when(asker.monsterNum()).thenReturn(3);
     assertEquals(3, asker.monsterNum());
   }
 
   @Test
-  public void moveNumTest() {
+  public void moveNumTest() throws IOException {
     when(asker.moveNum()).thenReturn(5);
     assertEquals(5, asker.moveNum());
   }

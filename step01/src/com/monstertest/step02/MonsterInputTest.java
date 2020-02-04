@@ -1,12 +1,9 @@
-package com.monstertest.step01;
+package com.monstertest.step02;
 
-import com.monstergame.step01.Monster;
+import com.monstergame.step02.Monster;
 
-import com.monstergame.step01.MonsterInput;
+import com.monstergame.step02.MonsterInput;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.util.Scanner;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

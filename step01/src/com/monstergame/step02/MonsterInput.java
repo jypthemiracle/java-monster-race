@@ -1,7 +1,5 @@
-package com.monstergame.step01;
+package com.monstergame.step02;
 
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.Scanner;
 
 public class MonsterInput {

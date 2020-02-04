@@ -1,9 +1,9 @@
-package com.monstertest.step01;
+package com.monstertest.step02;
 
 import static org.mockito.Mockito.mock;
 
-import com.monstergame.step01.Monster;
-import com.monstergame.step01.MonsterInput;
+import com.monstergame.step02.Monster;
+import com.monstergame.step02.MonsterInput;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.Assert;

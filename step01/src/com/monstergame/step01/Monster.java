@@ -10,10 +10,10 @@ public class Monster {
     MonsterInput monsterInput = new MonsterInput();
     int monsterN = monsterInput.monsterNum();
     int moveN = monsterInput.moveNum();
-    //playGame(monsterN, moveN);
+    playGame(monsterN, moveN);
   }
 
-  public void playGame(int monsterN, int moveN) {
+  public static void playGame(int monsterN, int moveN) {
     //input your code here
   }
 }

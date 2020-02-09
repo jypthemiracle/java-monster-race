@@ -57,6 +57,17 @@ public class MonsterTest {
     assertEquals("Runner", sortedMonsters.get(2).getName());
   }
 
+  @Test
+  public void TEST_TOSTRING(){
+    psychic.setMove(9);
+    flier.setMove(6);
+    runner.setMove(4);
+
+    assertEquals("---------", psychic.toString());
+    assertEquals("------",flier.toString());
+    assertEquals("----", runner.toString());
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void SPLIT_WITH_DELIMITER_TEST() {
     DragonUtils.splitWithDelimiter(",", ""); //performs adequately

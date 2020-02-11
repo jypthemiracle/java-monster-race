@@ -10,6 +10,13 @@ public abstract class Monsters {
     this.move = 0;
   }
 
+  public boolean isMove(Integer randomNumber) {
+    return false;
+  }
+
+  public void updateResults(Integer randomNumber) {
+  }
+
   public void setMove(int moveNum){
     this.move = moveNum;
   }
@@ -25,9 +32,11 @@ public abstract class Monsters {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
+    builder.append(getName()).append(" ").append(getMoveNum());
     for (int i = 0; i < this.move; i++) {
       builder.append("-");
     }
+    builder.append("\n");
     return builder.toString();
   }
 }

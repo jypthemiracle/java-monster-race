@@ -15,7 +15,9 @@ public class Flier extends Monsters implements Move {
 
   @Override
   public void updateResults(Integer randomNumber) {
-    this.move += MOVE_TURN_AMOUNT;
+    if (isMove(randomNumber)){
+      this.move += MOVE_TURN_AMOUNT;
+    }
   }
 
   @Override

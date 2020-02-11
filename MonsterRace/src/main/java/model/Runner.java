@@ -1,7 +1,5 @@
 package model;
 
-import utils.DragonUtils;
-
 public class Runner extends Monsters implements Move {
   private static final int MOVE_THRESHOLD = 4;
   private static final int MOVE_TURN_AMOUNT = 1;

@@ -16,17 +16,16 @@ public class OutputView {
     System.out.println("<경기 시작>");
   }
 
-  private String printWinner(List<Monsters> monsters){
+  private void printWinner(List<Monsters> monsters){
     List<Monsters> sortedMonsters = DragonUtils.sortByPositionDesc(monsters);
-    return sortedMonsters.get(0).getName() + "is a winner.";
+    System.out.println(sortedMonsters.get(0).getName() + " is a winner.");
   }
 
-  private String printResults(List<Monsters> monsters){
+  private void printResults(List<Monsters> monsters){
     StringBuilder builder = new StringBuilder();
     for (Monsters monster: monsters){
       builder.append(monster.toString());
     }
     System.out.println(builder.toString());
-    return builder.toString();
   }
 }

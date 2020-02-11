@@ -63,9 +63,9 @@ public class MonsterTest {
     flier.setMove(6);
     runner.setMove(4);
 
-    assertEquals("---------", psychic.toString());
-    assertEquals("------",flier.toString());
-    assertEquals("----", runner.toString());
+    assertEquals("Psychic 9---------" + "\n", psychic.toString());
+    assertEquals("Flier 6------" + "\n",flier.toString());
+    assertEquals("Runner 4----" + "\n", runner.toString());
   }
 
   @Test(expected = IllegalArgumentException.class)

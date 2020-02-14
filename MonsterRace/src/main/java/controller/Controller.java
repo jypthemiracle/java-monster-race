@@ -5,9 +5,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
-
 import model.Flier;
+import model.Monsters;
 import model.Psychic;
 import model.Runner;
 import utils.DragonUtils;
@@ -18,22 +19,89 @@ public class Controller {
 
   protected static InputView inputview = new InputView();
   protected static OutputView outputview = new OutputView();
+
   private BufferedReader bufferedReader;
   private BufferedWriter bufferedWriter;
   private Scanner scanner;
 
-  public void startController() throws IOException {
+  public Controller()
+      throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     System.out.println("재미없는 몬스터 게임 경주가 시작했어요.");
     createScanner();
+    loadGame(inputview.getMonstersMenu(bufferedReader.readLine()));
+  }
 
-    System.out.println("몇 명의 몬스터가 경주하나요?");
-    int num = getMonstersNum();
-
-    System.out.println("경주할 몬스터 이름과 종류를 입력하세요 (쉼표(,)를 기준으로 구분).");
-    for (int index = 0; index < num; index ++){
-      getCandidatesType();
+  public void loadGame(int userLoadChoose)
+      throws IOException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    switch (userLoadChoose) {
+      case 1:
+        startGame();
+      case 2:
+        loadGameCRUDMenu(inputview.getMonstersMenu(bufferedReader.readLine()));
+      default:
+        System.out.println("THE NUMBER IS NOT VALID!");
+        break;
     }
+  }
 
+  public void loadGameCRUDMenu(int userLoadChoose)
+      throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    String[] getInput = inputview.modifyMonsterNameInput(bufferedReader.readLine());
+    String deleteName = inputview.deleteMonsterNameInput(bufferedReader.readLine());
+    int getMenuChoice = inputview.getMonstersMenu(bufferedReader.readLine());
+
+    switch (userLoadChoose) {
+      case 1:
+        showAllMonstersInfo();
+        break;
+      case 2:
+        modifyMonstersInfo(getInput);
+        break;
+      case 3:
+        addNewMonstersInfo();
+        break;
+      case 4:
+        deleteMonstersInfo(deleteName);
+        break;
+      case 5:
+        loadGame(getMenuChoice);
+        break;
+    }
+  }
+
+  public void showAllMonstersInfo() {
+    //input your code here
+  }
+
+  public void deleteMonstersInfo(String deleteName) throws IndexOutOfBoundsException {
+    if (Database.monstersData.isEmpty()) {
+      throw new IndexOutOfBoundsException();
+    }
+    Database.monstersData.removeIf(monstersDatum -> deleteName.equals(monstersDatum.getName()));
+  }
+
+  public void addNewMonstersInfo() throws IOException {
+    createMonstersType(getCandidatesType());
+  }
+
+  public void modifyMonstersInfo(String[] modifyInfo)
+      throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+
+    String beforeName = modifyInfo[0];
+    String afterName = modifyInfo[1];
+    String afterType = modifyInfo[2];
+
+    for (Monsters monstersDatum : Database.monstersData) {
+      if (beforeName.equals(monstersDatum.getName())){
+        Object newClass = Class.forName(afterType).getDeclaredConstructor().newInstance();
+        ((Monsters) newClass).setName(afterName);
+        Database.monstersData.add((Monsters) newClass);
+      }
+      Database.monstersData.remove(monstersDatum);
+    }
+  }
+
+  public void startGame() throws IOException {
     System.out.println("시도할 횟수는 몇 번인가요?");
     int attemptTry = getAttemptTry();
     controllMove(attemptTry);
@@ -48,28 +116,24 @@ public class Controller {
     this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(System.out));
   }
 
-  private int getMonstersNum() throws IOException {
-    return inputview.getMonstersNum(bufferedReader.readLine());
-  }
-
-  private void getCandidatesType() throws IOException {
+  private String[] getCandidatesType() throws IOException {
     String[] input = inputview.getMonstersName(bufferedReader.readLine());
-    String name = input[0];
+    //String name = input[0];
     String type = input[1].trim();
-    if (getCandidatesTypeInvalidNameCheck(type)) {
-      createMonstersType(name, type);
-      return;
+    if (!getCandidatesTypeInvalidNameCheck(type)) {
+      throw new IllegalArgumentException();
     }
-    bufferedWriter.write("다시 입력해주세요.");
-    bufferedWriter.flush();
-    //int MonstersNum을 파라미터로 해서 원래는 재귀함수로 만들고 싶었음..
+    return input;
   }
 
   private boolean getCandidatesTypeInvalidNameCheck(String type) {
     return type.equals("달리기") || type.equals("비행") || type.equals("에스퍼");
   }
 
-  private void createMonstersType(String name, String type) {
+  private void createMonstersType(String[] input) {
+    String name = input[0];
+    String type = input[1].trim();
+
     switch (type) {
       case "달리기":
         Database.monstersData.add(new Runner(name));

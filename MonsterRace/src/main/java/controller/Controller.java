@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import model.Flier;
 import model.Monsters;
 import model.Psychic;
 import model.Runner;
 import utils.DragonUtils;
+import utils.Log;
 import view.InputView;
 import view.OutputView;
 
@@ -85,14 +87,15 @@ public class Controller {
   }
 
   public void modifyMonstersInfo(String[] modifyInfo)
-      throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+      throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException,
+      InvocationTargetException, InstantiationException {
 
     String beforeName = modifyInfo[0];
     String afterName = modifyInfo[1];
     String afterType = modifyInfo[2];
 
     for (Monsters monstersDatum : Database.monstersData) {
-      if (beforeName.equals(monstersDatum.getName())){
+      if (beforeName.equals(monstersDatum.getName())) {
         Object newClass = Class.forName(afterType).getDeclaredConstructor().newInstance();
         ((Monsters) newClass).setName(afterName);
         Database.monstersData.add((Monsters) newClass);
@@ -171,5 +174,15 @@ public class Controller {
 
   private void printMove() {
     outputview.printOutput(Database.monstersData);
+  }
+
+  public void printMonsterLog() {
+    if (Database.monstersData.size() < 1) {
+      throw new NoSuchElementException("no monsters viable.");
+    }
+    Log log = Log.getInstance();
+    Database.monstersData.stream()
+        .forEach(monster -> log.write(monster.getName(), monster.getClass().toString()));
+    //자바 람다 학습.. https://madplay.github.io/post/java-streams-intermediate-operations
   }
 }
